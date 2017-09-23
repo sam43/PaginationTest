@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Copyright (c) 2016. Suleiman Ali Shakir. All rights reserved.
  */
 
-public class MovieApi {
+public class TopupApi {
 
     private static Retrofit retrofit = null;
 

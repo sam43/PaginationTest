@@ -13,7 +13,7 @@ import retrofit2.http.Query;
  * Copyright (c) 2016. Suleiman Ali Shakir. All rights reserved.
  */
 
-public interface MovieService {
+public interface APIService {
 
     @GET("api/topuphis")
     Call<TopUpHistoryModel> getTopRatedMovies(

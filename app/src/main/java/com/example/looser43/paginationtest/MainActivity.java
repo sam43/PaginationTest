@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.looser43.paginationtest.api.MovieApi;
-import com.example.looser43.paginationtest.api.MovieService;
+import com.example.looser43.paginationtest.api.TopupApi;
+import com.example.looser43.paginationtest.api.APIService;
 import com.example.looser43.paginationtest.model.DataItem;
 import com.example.looser43.paginationtest.model.TopUpHistoryModel;
 import com.example.looser43.paginationtest.adapter.PaginationAdapter;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements PaginationAdapter
     private int TOTAL_PAGES = 4;
     private int currentPage = PAGE_START;
 
-    private MovieService movieService;
+    private APIService apiService;
 
     private String authcode, logcode;
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements PaginationAdapter
         });
 
         //init service and load data
-        movieService = MovieApi.getClient().create(MovieService.class);
+        apiService = TopupApi.getClient().create(APIService.class);
 
         loadFirstPage();
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements PaginationAdapter
         // To ensure list is visible when retry button in error view is clicked
         hideErrorView();
 
-        callTopRatedMoviesApi().enqueue(new Callback<TopUpHistoryModel>() {
+        callTopUpApi().enqueue(new Callback<TopUpHistoryModel>() {
             @Override
             public void onResponse(Call<TopUpHistoryModel> call, Response<TopUpHistoryModel> response) {
                 // Got data. Send it to adapter
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements PaginationAdapter
     private void loadNextPage() {
         Log.d(TAG, "loadNextPage: " + currentPage);
 
-        callTopRatedMoviesApi().enqueue(new Callback<TopUpHistoryModel>() {
+        callTopUpApi().enqueue(new Callback<TopUpHistoryModel>() {
             @Override
             public void onResponse(Call<TopUpHistoryModel> call, Response<TopUpHistoryModel> response) {
                 adapter.removeLoadingFooter();
@@ -189,8 +189,8 @@ public class MainActivity extends AppCompatActivity implements PaginationAdapter
      * As {@link #currentPage} will be incremented automatically
      * by @{@link PaginationScrollListener} to load next page.
      */
-    private Call<TopUpHistoryModel> callTopRatedMoviesApi() {
-        return movieService.getTopRatedMovies(
+    private Call<TopUpHistoryModel> callTopUpApi() {
+        return apiService.getTopRatedMovies(
                 authcode,
                 logcode,
                 currentPage
